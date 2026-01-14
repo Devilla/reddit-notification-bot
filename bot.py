@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 import time
+import pygame
 
 URL = "https://www.reddit.com/r/Pokemonexchange/new.json"
 HEADERS = {
@@ -9,6 +10,13 @@ HEADERS = {
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/120.0.0.0 Safari/537.36"
 }
+
+def play_pokemon_intro():
+    pygame.mixer.init()
+    pygame.mixer.music.load("pokemon_intro.mp3")
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        time.sleep(0.1)
 
 last_seen_id = None
 while True:
@@ -22,6 +30,7 @@ while True:
             print("Link: https://reddit.com" + post.get('permalink'))
             print("Content:", post.get('selftext')[:200])
             print()
+            play_pokemon_intro()
             last_seen_id = post.get('id')
         else:
             print("No new posts.")
